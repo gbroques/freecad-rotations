@@ -2,11 +2,15 @@
 
 A guide on understanding how rotations work in FreeCAD.
 
+Understanding a rotation about one axis is simple to understand.
+
+This guide focuses on rotating about more than one axis.
+
 ## Prerequisites
 
 Install [FreeCAD 19.2].
 
-## Instructions
+## Rotating About More Than One Axis
 
 1. Start FreeCAD.
 2. Select **Part** workbench from workbench dropdown.
@@ -19,7 +23,7 @@ Install [FreeCAD 19.2].
 
 4. Set `Radius1` property of **Cone** to `0.00 mm`.
 5. Select **View** > **Toggle axis cross** (`A`, `C`).
-   * Red, Green, and Blue represents X, Y, and Z respectively.
+   * Red, Green, and Blue represents X, Y, and Z axes respectively.
 
    ![Cone before rotations](./cone-before-rotations.png)
 
@@ -39,7 +43,15 @@ Install [FreeCAD 19.2].
 
 [Euler angles] combine a series of rotations around X, Y, and Z axes into one rotation about one axis.
 
-The order of multiplication is Z, Y, X[¹][1].
+A rotation about Z, Y, and X axes is also know as a rotation about **Y**aw, **P**itch, and **R**oll axes ([from aircraft axes]).
+
+|Yaw|Pitch|Roll|
+|---|-----|----|
+|![Yaw](./yaw.gif)|![Pitch](./pitch.gif)|![Roll](./roll.gif)|
+
+> ***Source:** [FreeCAD Wiki: Position and Yaw, Pitch and Roll].*
+
+The order of multiplication is Yaw, Pitch, Roll[¹][1].
 
 Ensure **View** > **Panels** > **Python console** is checked.
 
@@ -47,13 +59,13 @@ We can calculate the `Angle` and `Axis` vector and using FreeCAD.
 
 ```python
 >>> from FreeCAD import Rotation, Vector
->>> x = Rotation(Vector(1, 0, 0), 90)
->>> z = Rotation(Vector(0, 0, 1), 90)
->>> r = z.multiply(x)
->>> r.Axis
+>>> yaw = Rotation(Vector(0, 0, 1), 90)
+>>> roll = Rotation(Vector(1, 0, 0), 90)
+>>> rotation_matrix = yaw.multiply(roll)
+>>> rotation_matrix.Axis
 Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 >>> from math import degrees
->>> degrees(r.Angle)
+>>> degrees(rotation_matrix.Angle)
 119.99999999999999
 ```
 
@@ -61,4 +73,6 @@ How does FreeCAD caculate this though?
 
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
+[from aircraft axes]: https://en.wikipedia.org/wiki/Aircraft_principal_axes
+[FreeCAD Wiki: Position and Yaw, Pitch and Roll]: https://wiki.freecadweb.org/Placement#Position_and_Yaw.2C_Pitch_and_Roll
 [1]: https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
