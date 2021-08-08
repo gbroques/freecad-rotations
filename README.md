@@ -45,11 +45,19 @@ Install [FreeCAD 19.2].
 
 A rotation about Z, Y, and X axes is also know as a rotation about **Y**aw, **P**itch, and **R**oll axes ([from aircraft axes]).
 
-|Yaw|Pitch|Roll|
-|---|-----|----|
-|![Yaw](./yaw.gif)|![Pitch](./pitch.gif)|![Roll](./roll.gif)|
+|Yaw (Z)|
+|:-----:|
+|![Yaw](./yaw.gif)|
 
-> ***Source:** [FreeCAD Wiki: Position and Yaw, Pitch and Roll].*
+|Pitch (Y)|
+|:-------:|
+|![Pitch](./pitch.gif)|
+
+|Roll (X)|
+|:------:|
+|![Roll](./roll.gif)|
+
+> ***GIF Source:** [FreeCAD Wiki: Position and Yaw, Pitch and Roll].*
 
 The order of multiplication is Yaw, Pitch, Roll[¹][1].
 
