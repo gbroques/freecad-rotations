@@ -79,8 +79,14 @@ Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 
 How does FreeCAD caculate this though?
 
+## References
+
+* [Rotation matrix]
+* [Euler angles]
+
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
 [from aircraft axes]: https://en.wikipedia.org/wiki/Aircraft_principal_axes
 [FreeCAD Wiki: Position and Yaw, Pitch and Roll]: https://wiki.freecadweb.org/Placement#Position_and_Yaw.2C_Pitch_and_Roll
 [1]: https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix
+[Rotation matrix]: https://en.wikipedia.org/wiki/Rotation_matrix
