@@ -69,11 +69,11 @@ We can calculate the `Angle` and `Axis` vector and using FreeCAD.
 >>> from FreeCAD import Rotation, Vector
 >>> yaw = Rotation(Vector(0, 0, 1), 90)
 >>> roll = Rotation(Vector(1, 0, 0), 90)
->>> rotation_matrix = yaw.multiply(roll)
->>> rotation_matrix.Axis
+>>> rotation = yaw.multiply(roll)
+>>> rotation.Axis
 Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 >>> from math import degrees
->>> degrees(rotation_matrix.Angle)
+>>> degrees(rotation.Angle)
 119.99999999999999
 ```
 
