@@ -79,6 +79,29 @@ Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 
 How does FreeCAD caculate this though?
 
+*Three Elemental Rotation Matrices*
+
+R<sub>x</sub>(θ)
+```
+┌ 1  0        0      ┐
+│ 0  cos(θ)  -sin(θ) │
+└ 0  sin(θ)   cos(θ) ┘
+```
+
+R<sub>y</sub>(θ)
+```
+┌  cos(θ)  0  sin(θ) ┐
+│  0       1  0      │
+└ -sin(θ)  0  cos(θ) ┘
+```
+
+R<sub>z</sub>(θ)
+```
+┌ cos(θ)  -sin(θ)  0 ┐
+│ sin(θ)   cos(θ)  0 │
+└ 0        0       1 ┘
+```
+
 ## References
 
 * [Rotation matrix]
