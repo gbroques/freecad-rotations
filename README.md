@@ -15,13 +15,13 @@ Install [FreeCAD 19.2].
 1. Start FreeCAD.
 2. Select **Part** workbench from workbench dropdown.
 
-   ![Part workbench](./part-workbench.png)
+   [![Part workbench](./part-workbench.png)](https://wiki.freecadweb.org/Part_Module)
 
 3. Click "*Create a cone solid*" button on toolbar.
 
-   ![Create a cone solid](./Part_Cone.svg)
+   [![Create a cone solid](./Part_Cone.svg)](https://wiki.freecadweb.org/Part_Cone)
 
-4. Set `Radius1` property of **Cone** to `0.00 mm`.
+4. Set the `Radius1` property of the **Cone** to `0.00 mm`.
 5. Select **View** > **Toggle axis cross** (`A`, `C`).
    * Red, Green, and Blue represents X, Y, and Z axes respectively.
 
