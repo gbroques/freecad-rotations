@@ -41,7 +41,7 @@ Install [FreeCAD 19.2].
 11. The `Angle` is **120°**, and `Axis` is (**0.58**, **0.58**, **0.58**).
    * But *how is this calcuated*?
 
-[Euler angles] combine a series of rotations around X, Y, and Z axes into one rotation about one axis.
+[Euler angles] combine a series of rotations around X, Y, and Z axes into a *single* rotation about *one* axis.
 
 A rotation about Z, Y, and X axes is also know as a rotation about **Y**aw, **P**itch, and **R**oll axes ([from aircraft axes]).
 
