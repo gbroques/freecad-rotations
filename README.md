@@ -11,37 +11,39 @@ Install [FreeCAD 19.2].
 1. Start FreeCAD.
 2. Select **Part** workbench from workbench dropdown.
 
-![Part workbench](./part-workbench.png)
+   ![Part workbench](./part-workbench.png)
 
 3. Click "*Create a cone solid*" button on toolbar.
 
-![Create a cone solid](./Part_Cone.svg)
+   ![Create a cone solid](./Part_Cone.svg)
 
 4. Set `Radius1` property of **Cone** to `0.00 mm`.
 5. Select **View** > **Toggle axis cross** (`A`, `C`).
+   * Red, Green, and Blue represents X, Y, and Z respectively.
 
-![Cone before rotations](./cone-before-rotations.png)
+   ![Cone before rotations](./cone-before-rotations.png)
 
 7. With Cone selected, select **Edit** > **Placement** from the top main file menu.
 9. Select "*Euler Angles (xy'z'')*" from the dropdown under "*Rotation*".
 8. Enter 90° around x-axis.
 
-![Cone rotated around x-axis by 90 degrees](./cone-rotated-around-x-axis-by-90-degrees.png)
+   ![Cone rotated around x-axis by 90 degrees](./cone-rotated-around-x-axis-by-90-degrees.png)
 
 9. and 90° around z-axis.
 
-![Cone rotated around x and z axes by 90 degrees](./cone-rotated-around-x-and-z-axes-by-90-degrees.png)
+   ![Cone rotated around x and z axes by 90 degrees](./cone-rotated-around-x-and-z-axes-by-90-degrees.png)
 
 10. Click the **OK** button.
-11. The `Angle` is 120°, and `Axis` is (0.58, 0.58, 0.58). How is this calcuated?
+11. The `Angle` is **120°**, and `Axis` is (**0.58**, **0.58**, **0.58**).
+   * But *how is this calcuated*?
 
 [Euler angles] combine a series of rotations around X, Y, and Z axes into one rotation about one axis.
 
-The order of multiplication is is Z, Y, X[¹][1].
+The order of multiplication is Z, Y, X[¹][1].
 
 Ensure **View** > **Panels** > **Python console** is checked.
 
-We can calculate the axis vector and angle using FreeCAD.
+We can calculate the `Angle` and `Axis` vector and using FreeCAD.
 
 ```python
 >>> from FreeCAD import Rotation, Vector
