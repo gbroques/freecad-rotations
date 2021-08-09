@@ -12,6 +12,8 @@ Install [FreeCAD 19.2].
 
 ## Rotating About More Than One Axis
 
+### Cone Instructions
+
 1. Start FreeCAD.
 2. Select **Part** workbench from workbench dropdown.
 
@@ -40,6 +42,8 @@ Install [FreeCAD 19.2].
 10. Click the **OK** button.
 11. The `Angle` is **120°**, and `Axis` is (**0.58**, **0.58**, **0.58**).
    * But *how is this calcuated*?
+
+### Euler Angles
 
 [Euler angles] combine a series of rotations around X, Y, and Z axes into a *single* rotation about *one* axis.
 
@@ -79,7 +83,9 @@ Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 
 How does FreeCAD caculate this though?
 
-*Three Elemental Rotation Matrices*
+### [Axis–angle representation]
+
+#### Three Elemental Rotation Matrices
 
 `Yaw(θ)`
 ```
@@ -126,77 +132,102 @@ Then we evaluate `sin(90)` and `cos(90)`, which results in `1` and `0` respectiv
 
 `Yaw(90)`
 ```
-┌ 0  -1  0 ┐
-│ 1   0  0 │
-└ 0   0  1 ┘
+    0   -1    0
+    1    0    0
+    0    0    1
 ```
 
 `Roll(90)`
 ```
-┌ 1  0  0  ┐
-│ 0  0  -1 │
-└ 0  1   0 ┘
+    1    0    0
+    0    0   -1
+    0    1    0
 ```
 
-Finally, we multiply `Yaw(90)` with `Roll(90)` (*individual steps not shown*).
+---
+
+Finally, we multiply `Yaw(90)` with `Roll(90)` using [Matrix multiplication] and [WolframAlpha](https://www.wolframalpha.com/input/?i=%7B%7B0%2C+-1%2C+0%7D%2C+%7B1%2C+0%2C+0%7D%2C+%7B0%2C+0%2C+1%7D%7D+%7B%7B1%2C+0%2C+0%7D%2C+%7B0%2C+0%2C+-1%7D%2C+%7B0%2C+1%2C+0%7D%7D) (*individual steps not shown*).
 
 ```
-┌ 0  0  1 ┐
-│ 1  0  0 │
-└ 0  1  0 ┘
+    0    0    1
+    1    0    0
+    0    1    0
 ```
 
-We can verify these with some convience functions.
+We can verify these with a `print_matrix` function.
 ```python
 from FreeCAD import Matrix
 
-def round_matrix(matrix: Matrix) -> Matrix:
-    rounded_matrix = Matrix()
-    num_dimensions = 4
+def print_matrix(matrix: Matrix, precision=2, width=5) -> None:
+    translation_vector = [matrix.A14, matrix.A24, matrix.A34]
+    has_translation = all(translation_vector)
+    num_dimensions = 4 if has_translation else 3
     for i in range(1, num_dimensions + 1):
         for j in range(1, num_dimensions + 1):
             attr = 'A' + str(i) + str(j)
-            value = getattr(matrix, attr)
-            setattr(rounded_matrix, attr, round(value))
-    return rounded_matrix
-
-def print_matrix(m: Matrix):
-    print("{:>5} {:>5} {:>5} {:>5}".format(m.A11, m.A12, m.A13, m.A14))
-    print("{:>5} {:>5} {:>5} {:>5}".format(m.A21, m.A22, m.A23, m.A24))
-    print("{:>5} {:>5} {:>5} {:>5}".format(m.A31, m.A32, m.A33, m.A34))
-    print("{:>5} {:>5} {:>5} {:>5}".format(m.A41, m.A42, m.A43, m.A44))
+            # + 0 to format -0 as positive 0.
+            value = round(getattr(matrix, attr), ndigits=precision) + 0
+            print("{:>{width}}".format(value, width=width), end='')
+        print()
 ```
 
 ```python
->>> print_matrix(round_matrix(yaw.toMatrix()))
-  0.0  -1.0   0.0   0.0
-  1.0   0.0   0.0   0.0
-  0.0   0.0   1.0   0.0
-  0.0   0.0   0.0   1.0
->>> print_matrix(round_matrix(roll.toMatrix()))
-  1.0   0.0   0.0   0.0
-  0.0   0.0  -1.0   0.0
-  0.0   1.0   0.0   0.0
-  0.0   0.0   0.0   1.0
->>> print_matrix(round_matrix(rotation.toMatrix()))
-  0.0   0.0   1.0   0.0
-  1.0   0.0   0.0   0.0
-  0.0   1.0   0.0   0.0
-  0.0   0.0   0.0   1.0
+>>> print_matrix(yaw.toMatrix(), precision=None)
+    0   -1    0
+    1    0    0
+    0    0    1
+>>> print_matrix(roll.toMatrix(), precision=None)
+    1    0    0
+    0    0   -1
+    0    1    0
+>>> print_matrix(rotation.toMatrix(), precision=None)
+    0    0    1
+    1    0    0
+    0    1    0
 ```
 
+#### Angle
+
+The `Angle`, `θ`, can be calcuated by using the following formula[²][2].
+```
+θ = arccos(tr(R) - 1 / 2)
+```
+Where `R` is the `rotation` matrix above.
+
+`tr(R)` means calculate the [trace] of `R` which is the sum of the elements on the main diagonal.
+```
+tr(R) = 0 + 0 + 0 = 0
+```
+
+Substituting `0` for `tr(R)` results in the following simplified formula.
+```
+θ = arccos(-1/2)
+```
+
+We can then use Python to calculate `theta` for us.
+```python
+>>> from math import degrees, acos
+>>> theta = acos(-1/2)
+>>> degrees(theta)
+120.00000000000001
+```
+
+#### Axis
+Where `R` is the `rotation` matrix above.
 ```
     ┌ a  b  c ┐
 R = │ d  e  f │
     └ g  h  i ┘
 ```
 
+Substitute our values in.
 ```
     ┌ 0  0  1 ┐
 R = │ 1  0  0 │
     └ 0  1  0 ┘
 ```
 
+A vector `u` is computed using the following.
 ```
     ┌ h - f ┐
 u = │ c - g │
@@ -208,36 +239,19 @@ u = │ c - g │
 u = │ 1 - 0 │
     └ 1 - 0 ┘
 ```
+
 ```
     ┌ 1 ┐
 u = │ 1 │
     └ 1 ┘
 ```
 
-```
-θ = arccos(tr(R) - 1 / 2)
-```
-
-`tr(R)` means calculate the [trace] of `R` which is the sum of the elements on the main diagonal.
-```
-tr(R) = 0 + 0 + 0 = 0
-```
-```
-θ = arccos(-1/2)
-```
-
-```python
->>> from math import degrees, acos
->>> theta = acos(-1/2)
->>> degrees(theta)
-120.00000000000001
-```
-
-Normalize the axis vector `u` from above to calculate `w`[²][2].
+The we normalize the axis vector `u` from above to calculate `w`[²][2].
 ```
 w = (1 / 2 * sin(θ)) * u
 ```
 
+In python.
 ```python
 >>> from math import sin, acos
 >>> 1 / (2 * sin(theta))
@@ -251,6 +265,7 @@ Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 
 * [Rotation matrix]
 * [Euler angles]
+* [Axis–angle_representation]
 
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
@@ -260,3 +275,5 @@ Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 [Rotation matrix]: https://en.wikipedia.org/wiki/Rotation_matrix
 [trace]: https://en.wikipedia.org/wiki/Trace_(linear_algebra)
 [2]: https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation#Log_map_from_SO(3)_to_%7F'%22%60UNIQ--postMath-0000000D-QINU%60%22'%7F(3)
+[Axis–angle representation]: https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation
+[Matrix multiplication]: https://en.wikipedia.org/wiki/Matrix_multiplication
