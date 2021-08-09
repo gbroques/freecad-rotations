@@ -272,6 +272,11 @@ Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 * [Euler angles]
 * [Axis–angle representation]
 
+## Additional Resources
+
+* [Rotation and the Right Hand Rule](https://www.youtube.com/watch?v=-EymCI1g5rs)
+* [Why do we use 4x4 Matrices in Computer Graphics?](https://www.youtube.com/watch?v=Do_vEjd6gF0)
+
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
 [from aircraft axes]: https://en.wikipedia.org/wiki/Aircraft_principal_axes
