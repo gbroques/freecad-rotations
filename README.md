@@ -63,7 +63,7 @@ A rotation about Z, Y, and X axes is also know as a rotation about **Y**aw, **P*
 
 > ***GIF Source:** [FreeCAD Wiki: Position and Yaw, Pitch and Roll].*
 
-The order of multiplication is Yaw, Pitch, Roll[¹][1].
+The order of multiplication is Yaw, Pitch, Roll.[¹][1]
 
 Ensure **View** > **Panels** > **Python console** is checked.
 
