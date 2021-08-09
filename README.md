@@ -188,7 +188,7 @@ def print_matrix(matrix: Matrix, precision=2, width=5) -> None:
 
 #### Angle
 
-The `Angle`, `θ`, can be calcuated by using the following formula[²][2].
+The `Angle`, `θ`, can be calcuated by using the following formula.[²][2]
 ```
 θ = arccos(tr(R) - 1 / 2)
 ```
@@ -215,9 +215,9 @@ We can then use Python to calculate `theta` for us.
 #### Axis
 Where `R` is the `rotation` matrix above.
 ```
-    ┌ a  b  c ┐
-R = │ d  e  f │
-    └ g  h  i ┘
+    ┌ R₁₁  R₁₂  R₁₃ ┐
+R = │ R₂₁  R₂₂  R₂₃ │
+    └ R₃₁  R₃₂  R₃₃ ┘
 ```
 
 Substitute our values in.
@@ -229,24 +229,26 @@ R = │ 1  0  0 │
 
 A vector `u` is computed using the following.
 ```
-    ┌ h - f ┐
-u = │ c - g │
-    └ d - b ┘
+    ┌ R₃₂ - R₂₃ ┐
+u = │ R₁₃ - R₃₁ │
+    └ R₂₁ - R₁₂ ┘
 ```
 
+Substitute our values in
 ```
     ┌ 1 - 0 ┐
 u = │ 1 - 0 │
     └ 1 - 0 ┘
 ```
 
+Complete the calculation.
 ```
     ┌ 1 ┐
 u = │ 1 │
     └ 1 ┘
 ```
 
-The we normalize the axis vector `u` from above to calculate `w`[²][2].
+We then normalize the axis vector `u` from above to calculate the `Axis` vector.[²][2]
 ```
 w = (1 / 2 * sin(θ)) * u
 ```
@@ -265,7 +267,7 @@ Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 
 * [Rotation matrix]
 * [Euler angles]
-* [Axis–angle_representation]
+* [Axis–angle representation]
 
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
