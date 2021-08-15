@@ -269,6 +269,22 @@ In python.
 Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 ```
 
+## General Rotations
+
+The following matrix product uses the following nomenclature:
+
+* `1`, `2`, `3` subscripts represent the angles `α`, `β` and `γ` (i.e. the angles corresponding to the first, second and third elemental rotations respectively).
+* `X`, `Y`, `Z` are the matrices representing the elemental rotations about the axes x, y, z (e.g. `Z₁` represents a rotation about z by an angle α).
+* `s` and `c` represent **s**ine and **c**osine (e.g. `s₁` represents the sine of α).
+
+
+```
+         ┌ c₁c₂   c₁s₂s₃ - c₃s₁     s₁s₃   + c₁c₃s₂ ┐
+Z₁Y₂X₃ = │ c₂s₁   c₁c₃   + s₁s₂s₃   c₃s₁s₂ - c₁s₃   │
+         └ -s₂    c₂s₃              c₂c₃            ┘
+```
+**Sources:** *source*[¹][1] *source*[³][3]
+
 ## References
 
 * [Rotation matrix]
@@ -289,5 +305,6 @@ Vector (0.5773502691896258, 0.5773502691896258, 0.5773502691896258)
 [Rotation matrix]: https://en.wikipedia.org/wiki/Rotation_matrix
 [trace]: https://en.wikipedia.org/wiki/Trace_(linear_algebra)
 [2]: https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation#Log_map_from_SO(3)_to_%7F'%22%60UNIQ--postMath-0000000D-QINU%60%22'%7F(3)
+[3]: https://en.wikipedia.org/wiki/Rotation_matrix#General_rotations
 [Axis–angle representation]: https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation
 [Matrix multiplication]: https://en.wikipedia.org/wiki/Matrix_multiplication
