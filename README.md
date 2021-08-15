@@ -31,7 +31,10 @@ Install [FreeCAD 19.2].
 
 7. With Cone selected, select **Edit** > **Placement** from the top main file menu.
 9. Select "*Euler Angles (xy'z")*" from the dropdown under "*Rotation*".
-   * Positive rotations are clockwise when viewed from the Origin along an axis — or counter-clockwise when viewed towards the Origin.
+   * Positive rotations are clockwise when viewed from the Origin along an axis — or counter-clockwise when viewed towards the Origin (see [Right-hand rule](https://en.wikipedia.org/wiki/Right-hand_rule)).
+
+   ![Right-hand Rule](./right-hand-rule.svg)
+
    * Also see, [explanation of xy'z" notation](https://en.wikipedia.org/wiki/Euler_angles#Conventions).
    * x-y'-z" (intrinsic rotations) or z-y-x (extrinsic rotations).
 8. Enter 90° around x-axis.
