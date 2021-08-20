@@ -91,7 +91,7 @@ How does FreeCAD caculate this though?
 
 ### [Euler Angles] to [Axis–angle representation]
 
-> The following formula doesn't work if the rotation matrix is symmetric!
+> The following formula doesn't work if the rotation matrix is symmetric! For example (-90, 0, 180) in (yaw, pitch, roll) or (z, y, x).
 
 #### Three Elemental Rotation Matrices
 
@@ -322,13 +322,50 @@ def euler_to_quaternion(yaw: float,
     qz = (s1 * c2 * c3) - (c1 * s2 * s3)
     qw = (c1 * c2 * c3) + (s1 * s2 * s3)
 
-    return [qx, qy, qz, qw]
+    return (qx, qy, qz, qw)
+
 ```
 
 ```python
 >>> euler_to_quaternion(-90, 0, 180)
-[0.7071067811865476, -0.7071067811865475, -4.329780281177466e-17, 4.329780281177467e-17]
+(0.7071067811865476, -0.7071067811865475, -4.329780281177466e-17, 4.329780281177467e-17)
 ```
+
+## [Quaternion] to [Axis–angle representation]
+
+```python
+from math import acos, degrees, sqrt
+from typing import Tuple
+
+
+def quaternion_to_axis_angle(quaternion: Tuple[float, float, float, float]) -> Tuple[Tuple[float, float, float], float]:
+    """
+    Convert quaternion to axis-angle form.
+
+    Axis-angle is a two-element tuple where
+    the first element is the axis vector (x, y, z),
+    and the second element is the angle in degrees.
+
+    See:
+        https://github.com/FreeCAD/FreeCAD/blob/0.19.2/src/Base/Rotation.cpp#L119-L140
+        https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
+    """
+    qx, qy, qz, qw = quaternion
+
+    s = sqrt(1 - qw**2)
+    normalization_factor = 1 if s < 0.001 else s
+    x = qx / normalization_factor
+    y = qy / normalization_factor
+    z = qz / normalization_factor
+    axis = (x, y, z)
+
+    angle = degrees(2 * acos(qw))
+
+    return (axis, angle)
+
+```
+
+**Source:** https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/index.htm
 
 ## References
 
@@ -337,6 +374,7 @@ def euler_to_quaternion(yaw: float,
 * [Axis–angle representation]
 * [Quaternion]
 * [Conversion between quaternions and Euler angles]
+* [Symmetric matrix]
 
 ## Additional Resources
 
@@ -348,7 +386,7 @@ def euler_to_quaternion(yaw: float,
 
 [Conversion between quaternions and Euler angles]: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
 [Quaternion]: https://en.wikipedia.org/wiki/Quaternion
-
+[Symmetric matrix]: https://en.wikipedia.org/wiki/Symmetric_matrix
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
 [from aircraft axes]: https://en.wikipedia.org/wiki/Aircraft_principal_axes
