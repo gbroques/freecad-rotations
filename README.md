@@ -89,7 +89,9 @@ Vector (0.5773502691896258, 0.5773502691896256, 0.5773502691896258)
 
 How does FreeCAD caculate this though?
 
-### [Axis–angle representation]
+### [Euler Angles] to [Axis–angle representation]
+
+> The following formula doesn't work if the rotation matrix is symmetric!
 
 #### Three Elemental Rotation Matrices
 
@@ -285,17 +287,67 @@ Z₁Y₂X₃ = │ c₂s₁   c₁c₃   + s₁s₂s₃   c₃s₁s₂ - c₁s�
 ```
 **Sources:** *source*[¹][1] *source*[³][3]
 
+## [Euler angles] to [Quaternion]
+
+```python
+from math import cos, radians, sin
+from typing import Tuple
+
+
+def euler_to_quaternion(yaw: float,
+                        pitch: float,
+                        roll: float) -> Tuple[float, float, float, float]:
+    """
+    Convert Euler angles (in degrees) to quaternion form:
+        q0 = x, q1 = y, q2 = z and q3 = w
+    where the quaternion is specified by q = w + xi + yj + zk.
+
+    See:
+        https://github.com/FreeCAD/FreeCAD/blob/0.19.2/src/Base/Rotation.cpp#L632-L658
+        https://en.wikipedia.org/wiki/Quaternion
+    """
+    y = radians(yaw)
+    p = radians(pitch)
+    r = radians(roll)
+
+    c1 = cos(y / 2.0)
+    s1 = sin(y / 2.0)
+    c2 = cos(p / 2.0)
+    s2 = sin(p / 2.0)
+    c3 = cos(r / 2.0)
+    s3 = sin(r / 2.0)
+
+    qx = (c1 * c2 * s3) - (s1 * s2 * c3)
+    qy = (c1 * s2 * c3) + (s1 * c2 * s3)
+    qz = (s1 * c2 * c3) - (c1 * s2 * s3)
+    qw = (c1 * c2 * c3) + (s1 * s2 * s3)
+
+    return [qx, qy, qz, qw]
+```
+
+```python
+>>> euler_to_quaternion(-90, 0, 180)
+[0.7071067811865476, -0.7071067811865475, -4.329780281177466e-17, 4.329780281177467e-17]
+```
+
 ## References
 
 * [Rotation matrix]
 * [Euler angles]
 * [Axis–angle representation]
+* [Quaternion]
+* [Conversion between quaternions and Euler angles]
 
 ## Additional Resources
 
 * [Rotation and the Right Hand Rule](https://www.youtube.com/watch?v=-EymCI1g5rs)
 * [Why do we use 4x4 Matrices in Computer Graphics?](https://www.youtube.com/watch?v=Do_vEjd6gF0)
 * [Euler Angles - Interactive 3D Graphics](https://www.youtube.com/watch?v=q0jgqeS_ACM)
+* [Singularity in 3D rotation angle sequences](https://robotacademy.net.au/lesson/singularity-in-3d-rotation-angle-sequences/)
+
+
+[Conversion between quaternions and Euler angles]: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+[Quaternion]: https://en.wikipedia.org/wiki/Quaternion
 
 [FreeCAD 19.2]: https://github.com/FreeCAD/FreeCAD/releases/tag/0.19.2
 [Euler angles]: https://en.wikipedia.org/wiki/Euler_angles
